@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.daniel.discovermovies_3.MainActivity"
+    android:background="@color/colorGrey">
+
+    <Button
+        android:id="@+id/mStartSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start search"
+        android:visibility="visible"/>
+
+    <RelativeLayout
+        android:id="@+id/mRelativeLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/search_field"
+            android:layout_width="264dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:id="@+id/submit_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/search_field"
+            android:layout_toRightOf="@+id/search_field"
+            android:layout_toEndOf="@+id/search_field"/>
+
+        <LinearLayout
+            android:id="@+id/mLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/search_field">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/movies_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
