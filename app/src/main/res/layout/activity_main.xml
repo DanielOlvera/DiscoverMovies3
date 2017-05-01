@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.daniel.discovermovies_3.MainActivity"
-    android:background="@color/colorGrey">
+    android:background="@color/colorGreyLight">
 
     <Button
         android:id="@+id/mStartSearch"

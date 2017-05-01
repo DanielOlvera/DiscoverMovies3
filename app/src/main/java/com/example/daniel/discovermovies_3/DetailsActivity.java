@@ -2,8 +2,15 @@ package com.example.daniel.discovermovies_3;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -25,8 +32,13 @@ public class DetailsActivity extends AppCompatActivity {
         rankTxt = (TextView) findViewById(R.id.dRanking);
 
         titleText.setText(getIntent().getStringExtra("title"));
-        yearText.setText(getIntent().getStringExtra("data").substring(0, 4));
+        if (!getIntent().getStringExtra("data").isEmpty()) {
+            yearText.setText(getIntent().getStringExtra("data").substring(0, 4));
+        } else {
+            yearText.setText(getIntent().getStringExtra("data"));
+        }
         detailTxt.setText(getIntent().getStringExtra("description"));
         rankTxt.setText(getIntent().getStringExtra("rating"));
+        moviePosther.setImageResource(getIntent().getExtras().getInt("posther"));
     }
 }

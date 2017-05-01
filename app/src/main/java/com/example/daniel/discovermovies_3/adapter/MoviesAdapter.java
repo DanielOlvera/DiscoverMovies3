@@ -6,9 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.daniel.discovermovies_3.DetailsActivity;
 import com.example.daniel.discovermovies_3.R;
 import com.example.daniel.discovermovies_3.model.Movie;
@@ -21,6 +27,8 @@ import java.util.List;
  */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
+    private static final String BASE_URL_IMG = "https://image.tmdb.org/t/p/w150";
+
     private List<Movie> movies;
     private int rowLayout;
     private Context context;
@@ -32,6 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         TextView data;
         TextView movieDescription;
         TextView rating;
+        ImageView moviePosther;
 
         List<Movie> movies = new ArrayList<>();
         Context context;
@@ -46,6 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             data = (TextView) v.findViewById(R.id.subtitle);
             movieDescription = (TextView) v.findViewById(R.id.description);
             rating = (TextView) v.findViewById(R.id.rating);
+            moviePosther = (ImageView) v.findViewById(R.id.movieCDPosther);
         }
 
         @Override
@@ -58,6 +68,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             intent.putExtra("data", movie.getReleaseDate());
             intent.putExtra("description", movie.getOverview());
             intent.putExtra("rating", movie.getVoteAverage().toString());
+            intent.putExtra("posther", movie.getPosterPath());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
@@ -83,6 +94,22 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.data.setText(movies.get(position).getReleaseDate());
         holder.movieDescription.setText(movies.get(position).getOverview());
         holder.rating.setText(movies.get(position).getVoteAverage().toString());
+        Glide.with(context.getApplicationContext())
+                .load(BASE_URL_IMG + movies.get(position).getPosterPath())
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        return false;
+                    }
+                })
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(holder.moviePosther);
     }
 
     @Override
