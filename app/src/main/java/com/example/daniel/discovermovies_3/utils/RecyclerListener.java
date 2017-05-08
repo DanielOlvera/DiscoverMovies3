@@ -23,7 +23,7 @@ public abstract class RecyclerListener extends RecyclerView.OnScrollListener {
         int totalItemCount = linearManager.getItemCount();
         int firstVisibleItemPosition = linearManager.findFirstVisibleItemPosition();
 
-        if (!isLoading() && !isLastPage()) {
+        if (!isLastPage()) {
             if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                     && firstVisibleItemPosition >= 0) {
                 loadMoreItems();
@@ -36,5 +36,4 @@ public abstract class RecyclerListener extends RecyclerView.OnScrollListener {
 
     public abstract boolean isLastPage();
 
-    public abstract boolean isLoading();
 }

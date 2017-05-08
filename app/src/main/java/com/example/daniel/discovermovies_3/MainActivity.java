@@ -1,10 +1,7 @@
 package com.example.daniel.discovermovies_3;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ActionBarContainer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         movieName = (EditText) findViewById(R.id.search_field);
 
         if (API_KEY.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please obtain your API KEY from themoviedb.org first!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.err_key_missing, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -66,15 +63,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
             public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                int statusCode = response.code();
                 List<Movie> movies = response.body().getResults();
                 recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                Toast.makeText(MainActivity.this, R.string.err_service_unavailabe, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 // Log error here since request failed
+                Toast.makeText(MainActivity.this, R.string.err_no_network + t.toString(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, t.toString());
+            }
+        });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
@@ -99,14 +104,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             call.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                    int statusCode = response.code();
                     List<Movie> movies = response.body().getResults();
                     recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.list_item_movie, getApplicationContext()));
+                    Toast.makeText(MainActivity.this, R.string.err_service_unavailabe, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure(Call<MoviesResponse> call, Throwable t) {
                     // Log error here since request failed
+                    Toast.makeText(MainActivity.this, R.string.err_no_network, Toast.LENGTH_SHORT).show();
                     Log.e(TAG, t.toString());
                 }
             });

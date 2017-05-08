@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.daniel.discovermovies_3.DetailsActivity;
 import com.example.daniel.discovermovies_3.R;
 import com.example.daniel.discovermovies_3.model.Movie;
+import com.example.daniel.discovermovies_3.utils.MoviesConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,14 +64,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             int position = getAdapterPosition();
             Movie movie = this.movies.get(position);
             //Here we launch the DetailsActivity
-            Intent intent = new Intent(this.context, DetailsActivity.class);
-            intent.putExtra("title", movie.getOriginalTitle());
-            intent.putExtra("data", movie.getReleaseDate());
-            intent.putExtra("description", movie.getOverview());
-            intent.putExtra("rating", movie.getVoteAverage().toString());
-            intent.putExtra("posther", movie.getPosterPath());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent intent = prepareIntent(movie);
             context.startActivity(intent);
+        }
+
+        private Intent prepareIntent(Movie movie){
+            Intent intent = new Intent(this.context, DetailsActivity.class);
+            intent.putExtra(MoviesConstants.MOVIE_TITLE_EXTRA, movie.getOriginalTitle());
+            intent.putExtra(MoviesConstants.MOVIE_DATA_EXTRA, movie.getReleaseDate());
+            intent.putExtra(MoviesConstants.MOVIE_DESCRIPTION_EXTRA, movie.getOverview());
+            intent.putExtra(MoviesConstants.MOVIE_RANK_EXTRA, movie.getVoteAverage().toString());
+            intent.putExtra(MoviesConstants.MOVIE_POSTER_EXTRA, BASE_URL_IMG + movie.getPosterPath());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            return intent;
         }
     }
 
